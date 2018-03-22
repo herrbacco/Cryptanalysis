@@ -1,0 +1,23 @@
+WordList TESTING
+
+even array : evenWL     baby  banana  better  bite  boy  but
+odd array : oddWL     baby  banana  better  bite  boy
+
+evenWL.wordExists('baby') :true
+evenWL.wordExists('but') :true
+evenWL.wordExists('better') :true
+evenWL.wordExists('baa') :false
+evenWL.wordExists('by') :false
+evenWL.wordExists('bitter') :false
+oddWL.wordExists('baby') :true
+oddWL.wordExists('boy') :true
+oddWL.wordExists('better') :true
+oddWL.wordExists('baa') :false
+oddWL.wordExists('by') :false
+oddWL.wordExists('bitter') :false
+
+evenWL.getLongestWordLength() :6
+oddWL.getLongestWordLength() :6
+
+evenWL.toString() : letter: b     longest word length: 6
+oddWL.toString() : letter: b     longest word length: 6

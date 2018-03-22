@@ -1,0 +1,291 @@
+  Whats New in Javadoc 1.2 Javadoc Enhancements  
+
+This document describes the changes made to Javadoc between versions 1.1 and 1.2. It is divided into sections for three types of users: (1) for writers of doc comments, (2) for developers wanting to write doclets (architecture and the Doclet API), and (3) for readers of the javadoc-generated HTML pages (content and format). Further details are given in the "Detailed Changes" section that follows. 
+
+SUMMARY OF CHANGES
+This summary includes changes for writers of doc comments, changes to the Javadoc tool (the Doclet API) and changes to the content and format of the HTML output of Javadoc (as implemented in the Standard Doclet). 
+WRITING DOC COMMENTS
+Changes for Writing Doc Comments
+The following list summarizes in one place all features listed elsewhere that can have an impact on how you would write doc comments. 
+The first sentence of each class description should be a summary statement. 
+Package-level comments are now possible. 
+The first sentence of each package description should be a summary statement. 
+System-wide (overview) comments are now possible. 
+New Javadoc tags are available for use in doc comments. 
+Copies new "doc-files" directory for holding images and examples. 
+Hierarchial destination file structure 
+Possible incompatibilities between 1.1 and 1.2 doc comments 
+ARCHITECTURE
+Doclet 
+Javadoc now has a Doclet API to which you can write doclets. 
+CONTENT
+New Tags
+@throws is a synonym for @exception. 
+@see now accepts packages, HTML anchors and quoted strings. It can also take a label. 
+{@link  label} is a new tag for in-line links in text. 
+Provides more API information and links
+Includes mechanisms for package-level and document-level information. 
+Incorporates one-line summaries for classes and packages like there have been for members. 
+Includes inherited API on class and interface pages. 
+Includes return types in method summaries, and field data types in field summaries. 
+Includes links to interfaces from members that implement that interface. 
+Includes list of subclasses for each class, and implementing classes for each interface. 
+Copies member descriptions from interfaces to implementing classes. 
+Includes a class hierarchy (tree) view for each package. 
+Introduces -link option for linking to external Javadoc-generated documents. 
+Includes list of deprecated API. 
+Omits the keywords native and synchronization (which are not part of the Java). 
+Copies new "doc-files" directory for holding images and examples. 
+Customize title, header and footer
+Introduces options for adding a unique title, header, footer, and bottom note. The bottom note is for information like a copyright notice and mailto link. 
+FORMAT
+Image files
+No longer relies on images for headings and bullets. Instead it uses table cells and horizontal rules to distinguish headings and API. 
+Style sheet
+Add HTML style sheets for control of colors, fonts and positioning. 
+Improved navigation
+Adds optional HTML frames for lists of packages and classes. You can show or hide these frames with a single click. 
+Navigation bar is now the same from screen-to-screen. 
+Renames "API Users Guide" to "Help". 
+Changes the term "index" to "summary" in headings of class pages for member summaries. 
+Better distinguishes the summary and detail sections from each other. 
+Index improvements
+Option exists to break index up to one file per initial character. 
+Index is international to handle code characters. 
+Index now contains the classes and interfaces. 
+Hierarchical Destination File Structure
+Change the destination directory from flat to hierarchical. (new in)  
+GENERAL
+Incompatibilities
+Describes possible incompatibilities when running Javadoc 1.2 on 1.1 comments 
+Other Doclets
+Maintains the ability to generate Javadoc 1.1  output, for those who want it. 
+[Future] Adds the ability to generate  output, for importing into FrameMaker. 
+Future Enhancements After 1.2
+Allow for incremental builds contributing to a single Javadoc-generated document. 
+
+ 
+
+
+
+
+
+DETAILED CHANGES
+These are the detailed changes made to Javadoc from 1.1 to 1.2. Features denoted as "Done" are implemented and tested in 1.2 4. 
+CHANGES FOR WRITING DOC COMMENTS
+Javadoc 1.2 has the following new requirements and features you should be aware of when writing documentation comments: 
+The first sentence of each class description should be a summary statement. 
+Package-level comments are now possible. 
+The first sentence of each package description should be a summary statement. 
+System-wide comments are now possible. 
+New Javadoc tags are available for use in doc comments. 
+Copies new "doc-files" directory for holding images and examples. 
+Hierarchical destination file structure 
+Possible incompatibilities between 1.1 and 1.2 doc comments 
+ARCHITECTURE - DOCLET API
+Javadoc now has a Doclet API to which you can write doclets. This is a major architectural change to Javadoc. 
+You can use Javadoc doclets to customize Javadoc output. Think of a doclet as a plug-in for text conversion. A doclet is written written to the doclet API to specifies the content and format of the output to be generated by the Javadoc tool. You can write a doclet to generate any kind of text-file output, such as HTML, SGML, XML, RTF, and MIF. Sun provides a "standard" doclet for generating HTML-format API documentation. Doclets can also be used to perform special tasks not related to producing API documentation. For example, a diagnostic doclet could be created to check that all members have documentation comments. 
+Motivation for New Architecture - The original Javadoc (in 1.0. and 1.1.) takes java source files as input and produces HTML as output. The format of the HTML output is hard coded in java. The disadvantage is that developers who want to customize the output are out of luck, unless they have a source license and want to hack some very arcane code. This means technical writers cannot make enhancements they might need, whether minor (such as capitalizing a word, changing color, adding bold, ...) or major (converting to a new format, such as). 
+
+The requirements for the Javadoc were: 
+
+Separate the mechanisms used to parse and process the input source from the specification of the output format. 
+
+Make the output format specification pluggable. 
+
+Make the output format specification as comprehensible as possible to tech writers. 
+New architecture: The javadoc front-end handles command line arguments and java parsing/processing, constructing a root data structure and passes this off to a java "doclet". The doclet would access this data via an API representing packages, classes, methods, fields, and comments, as well as enumerations of these objects. New doclets could be written to this API, or standard doclets could be subclassed to allow minor changes. 
+
+CONTENT - NEW TAGS
+These tags are actually implemented in the javadoc API, not in the standard doclet. 
+New tag "@throws" is a synonym for "@exception". This is a convenience, since "throws" is a keyword in the Java language. 
+
+Existing tag "@see" now accepts packages, anchors and quoted strings. It can also take a label. An @see tag can refer to a package just like it can refer to a class, method or other API. The  anchor is of the form <a  and the quoted string is of the form "". For examples, see Javadoc Reference Page. The label is optional and is of the form: "@see name label". If a label is included, it will be displayed instead of the name. 
+
+New tag "{@link  label}" is for in-line links in text. In previous versions of Javadoc, the only way to include links to API was to use the @see tag or to hard-code . This new in-line tag uses the same algorithm that @see uses to generate the link. The difference is that it places the link in-line rather than under a "See Also" heading. 
+
+
+CONTENT - PROVIDES MORE API INFORMATION AND LINKS
+Add to source tree one file per package, named "package.", dedicated to doc comments. The first sentence of each package description is the summary. Javadoc picks up everything between <body> and </body> and add it to the package summary page "package-summary.html" (which also contains a table of its classes and interfaces). Javadoc copies the first sentence of this to the overview page "overview.html". Therefore, you should not put a title or any other text between <body> and the first sentence. 
+Outline for package-level comments: 
+
+Introduction 
+Package Specification 
+Related Documentation 
+For more information, see Package Level Comments. 
+
+Old Behavior: Javadoc 1.1 has no mechanism for including comments specific to a particular package. 
+NOTE - The above feature requires writers to follow a new Javadoc rule: The first sentence of each package description should be a summary statement. 
+
+Add a single system-wide document "overview." for the set of packages. Include in it any comments that apply to the all the packages being documented. For example, you might document the following assumption on this page: "NullPointerException is thrown wherever null is passed in, except as noted." 
+This file belongs in your source tree and can be any filename you specify. By convention, we use the name "overview.". Specify this filename with the -overview option on the command line when running Javadoc and the files contents (between the <body> and </body> tags) is inserted into the initial page that appears in the right-hand frame, named overview-summary (which was called packages. in 3 and earlier versions). 
+
+Old Behavior: Javadoc 1.1 has no mechanism for including comments that apply to all packages. 
+
+Javadoc picks up the first sentence one-line summary for each package from package. and puts it in packages. This provides a brief summary of each packages in the list of all packages. 
+Old Behavior: Javadoc 1.1 has no such summary list. 
+
+Pick up the first sentence of each class description and include it in the class summary at package-<class> This provides a brief summary of all classes for a given package. 
+Old Behavior: Javadoc 1.1 has no such summary list. 
+NOTE - The above feature requires writers to follow a new Javadoc rule: The first sentence of each class description should be a summary statement. 
+
+Add inherited API to method and field summaries on class and interface pages. 
+Old Behavior: In Javadoc 1.1, the inherited members for a given class do not appear on the class page, necessitating following links to discover them. 
+
+Include return type and keywords "static", "protected" and "abstract" in the signature in the method summary, since they are needed by someone calling a method. Do not include public, , volatile, or final; those appear in the detail section further down the page. Include data type of fields. 
+Old Behavior: In Javadoc 1.1, method summaries dont indicate the return type. Field summaries dont indicate the field type. 
+
+Add "Specified by" for members that implement an interface. 
+Old Behavior: In Javadoc 1.1, members of a class that implement an interface make no such mention. 
+
+Add the list of subclasses at the top of the class page. Also add the subinterfaces and implementing classes at the top of the interface pages. 
+Old Behavior: Javadoc 1.1 does not list subclasses on a class page. 
+
+Copy the description automatically from the method in an interface to its implementing subclass only when the implementing method contains no text. Include a boilerplate statement that says that the text is copied from the interface. The reason for doing this, is that when implementing an interface, the method descriptions are often identical for both the interface and the class. Copying the descriptions manually seems like needless work that is difficult to maintain. 
+Old Behavior: Javadoc 1.1 does not copy method descriptions from an interface. 
+
+Add a tree view for each package. When you are viewing a package or class, the "Tree" link goes to that view, which then has a link to the tree for all packages. 
+Old Behavior: Javadoc 1.1 has no tree view (class hierarchy) of single packages. The only tree view is of all packages, which, for the JDK, is overwhelming. 
+
+Introduce -link option for linking to external Javadoc-generated documents. Default is to not link to external documentation. When someone generates docs, the -link option generates links to documentation for any API referenced by the API being documented. The links can be local or remote (on the Internet). 
+Old Behavior: Javadoc 1.1 makes no links to documentation outside what is being generated. 
+
+Submit bugs against default constructors that should not be documented by Javadoc. We should either deprecate them or remove them as bugs. 
+(Does not affect Javadoc) 
+Old Behavior: Javadoc includes all default constructors, whether or not an application developer would ever call them. When it documents default constructors, it leaves their descriptions blank. 
+
+Add a deprecated summary page listing all deprecated API. (Eventually we will add links to the replacement API.) 
+Old Behavior: Javadoc 1.1 does not generate a list of deprecated API. 
+
+Mark classes that are deprecated. 
+Old Behavior: In Javadoc 1.1, deprecated classes are not marked as such in the class list for a given package. 
+
+Remove "synchronized" and "native" from signatures. Javadoc generates an API specification. These two keywords do not belong in the signatures of a specification, because they are implementation-specific. The keyword "native" does not need to be documented. The keyword "synchronized" indicates thread-safe behavior that should instead be described in the method descriptions. A thread-safe method itself might not use the "synchronized" keyword but might call private methods that are. 
+Old Behavior: Javadoc 1.1 includes the keywords "synchronized" and "native". 
+
+Copy "doc-files" directory (one per package) for holding images and examples. Javadoc looks for a directory named "doc-files" in each package directory of the source tree and copies that directory and its contents to the destination. The files in "doc-files" are merely copied to the destination and not processed by Javadoc. This means these files cannot contain the standard navigation bar, header or footer, or be included in the index or tree. This directory can contain arbitrary files referenced by doc comments. Examples: images, files, text files, example source code, tables shared by more than one class. 
+Example: To include a reference to the image file "Button-1.gif" within the description for the java.awt.Button class: 
+
+In the source tree, create a directory named "doc-files" in the "java//" directory. 
+Put the "Button-1.gif" file in the "doc-files" directory. 
+Add an <img> tag to your doc comment for the Button class: 
+   /**
+    * <img src="doc-files/Button-1.gif">
+    */
+
+Java Software has adopted the naming convention starting with "-1" and incrementing for subsequent images. For more details, see Including Images. 
+Old Behavior: In Javadoc 1.1, running Javadoc generates files with broken links because images are not copied to the destination. (In the, these images are currently mostly screen shots of  and Swing components.) 
+CONTENT - CUSTOMIZABLE TITLE/HEADER/FOOTER
+Add the -title option to include a title to first page "packages.". Example title: "Java Platform 1.2 Core API". 
+Old Behavior: Javadoc 1.1 has no formal way to add a title to the generated document. 
+
+Add -header, -footer, -bottom options for header/footer/bottom on every page. This enables you to put the version number of the API (such as "Java 1.2 Beta 4") on every page so that when you print out a page, you have a record of the version it came from. The "bottom" feature lets you add a copyright notice or feedback email link at the bottom of each page. 
+Old Behavior: In Javadoc 1.1, the version number by default does not appear on any page. 
+CONTENT - NO LINKS TO SOURCE FILES
+For internal development, having direct links from each Javadoc-generated class page to its source code would be handy. However, we have decided not to include links in the Java API documentation to the Java source code when we generate and publish our API documentation. Hence it becamse a low priority to put that feature into the standard doclet. However, we have made available separately a doclet that generates links to the source code. 
+FORMAT - IMAGE FILES
+Eliminate any required images. Replace the bullets with horizontal rules. Replace the graphic headings (., "Methods", "Fields") with text inside colored table cells. 
+Old Behavior: Javadoc 1.1 requires  images for bullets and headers. These are not necessary, they slow down the display, and they need to be manually copied to the destination. 
+FORMAT - STYLE SHEET
+Add HTML style sheets for control of colors, fonts and positioning. Style sheets are a standardized way of setting the colors, fonts and positioning of text on web pages at runtime. To modify the colors of the table cells or the font sizes in the left-hand frames, modify the file stylesheet. that is generated by javadoc. There is also a -stylesheetfile option when running javadoc for specifying your own style sheet. 
+For example, you can change the background cell color of the headings from dark blue to white by editing the file stylesheet. as follows. 
+
+From: 
+
+   TableHeadingColor     { background:  } /* Dark  */
+
+To: 
+   TableHeadingColor     { background:  } /* Dark  */
+
+For a formal description, see Cascading Style Sheets from . For a more practical description, see  Reference Table from CNET. (For an introduction, click on "back to intro" from the Reference Table.) 
+
+FORMAT - IMPROVED NAVIGATION
+Add frames for package, class and member. (For no frames, start at "package-summary.". For frames, start at "overview-summary") 
+Old Behavior: Javadoc 1.1 has no easy way to access any package, class or member. It requires users to backtrace. 
+
+Add "All classes" link to top of package list (upper left frame). When user clicks this, it should display list of all classes in alphabetic order in lower left-hand frame. 
+Old Behavior: Javadoc 1.1 has no easy way to access any class, regardless of the package it is in. It requires users to go to "Class Hierarchy". It would be nice to have a list of just classes and interfaces. 
+
+Develop a single navigation bar that works in all screens. Dim out the unused items. 
+Old Behavior: In Javadoc 1.1, the standard navigation bar along the top changes dramatically from page to page. There are three different navigation bars: all packages (2 items), a package (3 items), and a class (6 items). 
+
+Add another navigation bar to jump to each subsection.
+Summary: Inner | Field | Constr | Method       Detail: Field | Constr | Method 
+Old Behavior: Javadoc 1.1 requires you to scroll past the class description to get to the member summaries and detail. 
+
+Rename the "API Users Guide" link to "Help". Modify Javadoc to generate a default help file. Add an option -nohelp to omit the "Help" link from the navigation bar if desired. Add an option -helpfile to create a file 
+Old Behavior: Javadoc 1.1 has a link in packagescalled "API Users Guide". The file it points to is not automatically copied to the destination directory. 
+
+frame for members in Javadoc 1.2. This is a feature we had considered adding to the standard doclet but decided not to. We plan to announce a third-party developer to eventually release this feature in a separate doclet. 
+FORMAT - WEB PAGES
+Change the summaries to tables with borders and cell background color. This better distinguishes between summary and detail portions of class files. 
+
+Old Behavior: In Javadoc 1.1, both the summary and detail portions both look quite similar, its not obvious when scrolling down the page which section you are in. 
+
+Keep "Index" as the name of the alphabetized list of API at the end of the document. Rename top portion of each package page from "Package Index" to "Package Summary", likewise for top portion of each class page rename "Method Index" to "Method Summary", "Constructor Index" to "Constructor Summary", and "Field Index" to "Field Summary". 
+Old Behavior: In Javadoc 1.1, the word "index" is used to identify both summaries at the top of class pages, and the alphabetic book-type list containing all the API. This is needlessly confusing. 
+FORMAT - INDEX IMPROVEMENTS
+Add -breakindex option to break the index into a separate file for each letter of alphabet. 
+Old Behavior: In Javadoc 1.1, the index is a gigantic 1.4file for ; takes forever to load over Internet. 
+
+Add classes and interfaces to the index. 
+Old Behavior: In Javadoc 1.1, the index lists only constructors and members, not classes or interfaces. 
+
+Internationalize the index, to enable any Unicode characters. 
+Old Behavior: In Javadoc 1.1, the index handles only the alphabet. (Actually, only.) 
+FORMAT - HIERARCHICAL DESTINATION FILE STRUCTURE
+Add hierarchical destination directories that replicates the source code tree of one directory per subpackage. Flat structure will no longer be supported. This has the effect of reducing the number of files in a directory by distributing them by package. A side effect is to reduce length of filenames, since package names will be directory names rather than part of the filename. This will make it easier for third parties to generate shorter names (for example, 31-character names for the  that retain some meaning. 
+For example, java.Button will now be \java\Button. Given all the 1.2 changes, the destination file structure for running Javadoc on the java.applet package would now look like file structure. 
+
+
+Old Behavior: Javadoc 1.1 uses a flat structure, where all  files sit in a single directory. 
+INCOMPATIBILITIES
+Possible incompatibilities between 1.1 and 1.2 doc comments We have been careful to write Javadoc 1.2 to be compatible with documentation comments written for previous versions of Javadoc. However, there may be a few cases where old documentation comments may not "work" the same when compiled with Javadoc 1.2. 
+
+Many filenames have changed. The most important change is that the initial page of the generated documentation is now index.html (which sets up HTML frames) instead of packages.html. If you want to avoid frames, the initial page to load is overview-summary. (which replaces packages in 1.1). 
+
+In the text of comments, writers might have hard-coded in-line links to API names. Because javadoc now generates hierarchical directories, those links would now be broken. The new {@link} tag enables proper in-line links. 
+
+OTHER DOCLETS
+Maintain Javadoc 1.1 format with its own doclet. This keeps the old look and flat directory structure but with some of the new bug fixes. To access this, use the "-1.1" javadoc option 
+Old Behavior: - The Javadoc 1.1 format is important for those who has built parsers that operate on and rely on that  output. 
+
+[Future] Implement a doclet. This will add the ability to generate  output, for importing into FrameMaker. 
+(Plan to do and release separately after 1.2.) 
+Old Behavior: Javadoc 1.1 has no capability (Javadoc 1.0.2 does). 
+FUTURE ENHANCEMENTS - TO DO IN A RELEASE AFTER 1.2
+Allow for incremental builds contributing to a single Javadoc-generated document. Would be useful to save the intermediate format from each Javadoc run and allow merging of those intermediate formats into a complete document, with fully correct index, tree, class hierarchy, subclasses list, etc. 
+(Not done - planned for a release after 1.2) 
+Old Behavior: Javadoc 1.1 does not allow incremental building of documentation. 
+Please send comments to: 
+
+he he he he he he he he he he he he he he he he he he he he he he he hehe he he he he
+add add addaddaddaddaddaddaddaddaddaddaddaddaddaddaddadead
+he he he he he he he he he he he he he he he he he he he he he he he hehe he he he he
+add add addaddaddaddaddaddaddaddaddaddaddaddaddaddaddadead
+hellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhellhell
+hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe
+hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe
+hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe
+hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe
+whatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhat
+whatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhat
+whatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhatwhat
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+gutgutgutgutgutgutgutgutgutgutgutgutgutgutgutgut
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+wewewewewewewewewewewewewewewewewewewewewewewewewe
+buttebuttebuttebuttebuttebuttebuttebuttebuttebuttebuttebutte
+uhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuh
+uhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuh
+uhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuhuh

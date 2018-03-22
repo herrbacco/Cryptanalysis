@@ -1,0 +1,19 @@
+LetterFrequency TESTING
+
+charOnly = new LetterFrequency('b')
+charAndInt = new LetterFrequency('c', 5)
+
+charOnly.getLetter() :b
+charAndInt.getLetter() :c
+
+charOnly.getFrequency() :0
+charAndInt.getFrequency() :5
+
+charOnly.incrementFrequency() :1
+charAndInt.incrementFrequency() :6
+
+charOnly.compareTo(charAndInt) :-5
+charAndInt.compareTo(charOnly) :5
+
+charOnly.toString() :Letter: b    Frequency: 1
+charAndInt.toString() :Letter: c    Frequency: 6

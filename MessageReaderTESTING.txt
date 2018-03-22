@@ -1,0 +1,13 @@
+MessageReader TESTING
+
+enciphered = new MessageReader('secretmsg.txt') :
+plaintext = new MessageReader('plaintext.txt') :
+
+secretmsg.txt contains the following enciphered message : 
+Qeb cxoo lk exq fk qeb f bxq xkxkx pbb qeb qeb ql pbb lk f zxq lklkff pbb pl fp bxq bxq bxq lk lk pl ofa ofa
+
+plaintext.txt contains the following message : 
+  Once upon a time, there lived three little pigs.  The first one had a house built of straw.  	The second was made of twigs, it was not very strong.  	The thrid was made of bricks, it was extremely strong.
+
+enciphered.toString() : qebcxoolkexqfkqebfbxqxkxkxpbbqebqebqlpbblkfzxqlklkffpbbplfpbxqbxqbxqlklkplofaofa
+plaintext.toString() : onceuponatimetherelivedthreelittlepigsthefirstonehadahousebuiltofstrawthesecondwasmadeoftwigsitwasnotverystrongthethridwasmadeofbricksitwasextremelystrong

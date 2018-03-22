@@ -1,0 +1,14 @@
+EnglishChecker TESTING
+
+myEC = new EnglishChecker()
+
+myEC will be using the dictionary formed from mywords.txt
+
+myEC.testMessage('') :true
+myEC.testMessage('i') :true
+myEC.testMessage('isee') :true
+myEC.testMessage('indigokite') :true
+myEC.testMessage('ieatacatsiy') :false
+myEC.testMessage('300') :false
+
+myEC.toString() :mywords.txt

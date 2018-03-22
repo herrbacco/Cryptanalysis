@@ -1,0 +1,26 @@
+Dictionary TESTING
+
+noParam = new Dictionary()
+fileParam = new Dictionary('mywords.txt')
+
+mywords.txt contains select words in the form of a dictionary, i.e.
+a
+an
+apple
+banana
+boy
+can
+cat
+etc.
+
+noParam.getLongestWordLength('aunt') :28
+fileParam.getLongestWordLength('but') :6
+noParam.getLongestWordLength('300') :0
+
+noParam.wordExists('apple') :true
+fileParam.wordExists('boy') :true
+noParam.wordExists('300') :false
+fileParam.wordExists('baseball') :false
+
+noParam.toString() :dictionary.txt
+fileParam.toString() :mywords.txt
